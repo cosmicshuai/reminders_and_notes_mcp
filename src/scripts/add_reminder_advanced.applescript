@@ -29,7 +29,29 @@ on run argv
     if (count of argv) >= 3 and item 3 of argv is not "" then
         set dueDateString to item 3 of argv
         try
-            set dueDate to date dueDateString
+            -- Parse YYYY-MM-DD format
+            set dateComponents to my splitString(dueDateString, "-")
+            if (count of dateComponents) = 3 then
+                set yearNum to (item 1 of dateComponents) as integer
+                set monthNum to (item 2 of dateComponents) as integer
+                set dayNum to (item 3 of dateComponents) as integer
+                
+                -- Validate date components
+                if yearNum >= 1900 and yearNum <= 2100 and monthNum >= 1 and monthNum <= 12 and dayNum >= 1 and dayNum <= 31 then
+                    -- Create a proper date object
+                    set dueDate to current date
+                    set year of dueDate to yearNum
+                    set month of dueDate to monthNum
+                    set day of dueDate to dayNum
+                    set time of dueDate to 0 -- Start with midnight, will be adjusted if time is provided
+                else
+                    display dialog "Error: Invalid date values. Year must be 1900-2100, month 1-12, day 1-31." buttons {"OK"} default button "OK"
+                    return
+                end if
+            else
+                display dialog "Error: Invalid date format. Please use YYYY-MM-DD format." buttons {"OK"} default button "OK"
+                return
+            end if
         on error
             display dialog "Error: Invalid date format. Please use YYYY-MM-DD format." buttons {"OK"} default button "OK"
             return
