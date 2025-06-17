@@ -1,0 +1,15 @@
+[project]
+name = "reminders-and-notes-mcp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.9.4",
+]
+
+[tool.uv.workspace]
+members = [
+    "reminders_and_notes_mcp",
+]
